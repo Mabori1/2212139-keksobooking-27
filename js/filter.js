@@ -83,12 +83,20 @@ const onChangeFilter = (cb) => {
 };
 
 const filterOffers = (offers) => {
-  const filteredOffers = offers.filter(getFilterType)
-    .filter(getFilterPrice)
-    .filter(getFilterRooms)
-    .filter(getFilterGuests)
-    .filter(chooseFeatures);
-
+  const filteredOffers = [];
+  for (const offer of offers) {
+    if (filterOffers.length >= MAX_ADS) {
+      break;
+    }
+    if (getFilterType(offer) &&
+      getFilterPrice(offer) &&
+      getFilterRooms(offer) &&
+      getFilterGuests(offer) &&
+      chooseFeatures(offer)
+    ) {
+      filteredOffers.push(offer);
+    }
+  }
   return filteredOffers.sort(compareAds).slice(0, MAX_ADS);
 };
 
